@@ -15,3 +15,5 @@ def sum(x,y):
   """
   return x + y
 ```
+
+> note : notice that if you have a string as your expecting result in docstrings, you have to wrap it with single quotes.
