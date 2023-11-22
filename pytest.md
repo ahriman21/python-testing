@@ -117,7 +117,7 @@ def test_multiplication_11(num, output):
 ```python
 def age_check(age):
    if age < 18:
-      raise ValueError(" age cannot be less than 18")
+      raise ValueError("age cannot be less than 18")
 ```
 > now we can test code above :
 ```python
@@ -127,7 +127,12 @@ def test_age_check_invalid_input():
       age_check(17)
 
 ```
-> code above tests that the original function will raise an ValueError or not. in this case if the result be true, it means the original function will raise the error and the code is ok.
+> code above tests that the original function will raise an ValueError or not. in this case if the result be true, it means the original function will raise the error and the code is ok.  
 
+>  you can even cehck if the custom error message matches or not using `match` parameter :  
+```python
+def test_age_check_invalid_input():
+   with pytest.raises(ValueError, match="age cannot be less than 18"):
+      age_check(17)
 
->  
+```
