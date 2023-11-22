@@ -87,3 +87,47 @@ def test_divisible_by_6(input_value):
 
 ```
 
+## conftest.py
+> We can define the fixture functions in this file to make them accessible across multiple test files.
+> create a file named conftest.py
+> put your fixtures in it. then you can access your fixtures in another test files.
+
+
+## parameterizing
+> Parameterizing of a test is done to run the test against multiple sets of inputs. We can do this by using the following marker  
+
+```
+@pytest.mark.parametrize
+```
+> example:  
+```python
+import pytest
+
+@pytest.mark.parametrize("num, output",[(1,11),(2,22),(3,35),(4,44)])
+def test_multiplication_11(num, output):
+   assert 11*num == output
+
+```
+> Here the test multiplies an input with 11 and compares the result with the expected output. The test has 4 sets of inputs, each has 2 values – one is the number to be multiplied with 11 and the other is the expected result.
+
+
+## assert errors
+> sometimes we want to test if a code will raise a particular error or not.
+> for instance, we have a code that checks if user's age is under 18 or not, if it is then it raises a ValueError including a message. so we can test this code using `with` cluase in pytest:
+```python
+def age_check(age):
+   if age < 18:
+      raise ValueError(" age cannot be less than 18")
+```
+> now we can test code above :
+```python
+
+def test_age_check_invalid_input():
+   with pytest.raises(ValueError):
+      age_check(17)
+
+```
+> code above tests that the original function will raise an ValueError or not. in this case if the result be true, it means the original function will raise the error and the code is ok.
+
+
+>  
