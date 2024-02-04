@@ -1,9 +1,13 @@
 ### provided test tools in django :
+django has some classes to help us test projects. all of these classes inherit from `unittest.TestCase`. so it has all features of unittest module.
+you can access them from `django.test`.
 * SimpleTestCase : use it if your tests dont make any database query. this class disallows database queries by default
 * TransactionTestCase : use it if your tests make any database query.
 * TestCase : this is the most common class to use for writing tests in django. it inherits from both classes above.
 
-all of these classes above inherit from `unittest.TestCase`. so it has all features of unittest module.
+note : django will create test database for your tests and dosn't use the database you are using for your production.
+
+
 
 #### SimpleTestCase :
 ```python
@@ -50,6 +54,8 @@ note : `.` means the test returned ok and `F` means the test returned false.
 ```
 
 
+#### how to use data before running each methdod or class | setUpTestData() VS setUp()  
+...
 
-
-
+#### how to use fake data in test files | model_bakery :
+...
