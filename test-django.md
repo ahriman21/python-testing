@@ -117,7 +117,7 @@ class TestUserRegistrationForm(TestCase):
 you can test your views like a real client is requesting your website and views. for that we import Client from django.test.
 we can login, send data, send request and ... using `Client`.
 
-* request to a url :
+* test a request to a url(GET,POST), test if login and accessing a permission needed view is working ok or not :
 ```python
 from django.test import TestCase, Client
 
