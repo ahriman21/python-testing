@@ -149,6 +149,16 @@ class TestUserRegisterView(TestCase):
     
 ```
 
+#### how to work with the request itself | RequestFactory() :
+if you want to test your apps and also manipulate request you can create an instance of RequestFactory class and work with it.
+
+```python
+req_factory = RequestFactory() # create instance
+request = self.req_factory.get(reverse('home:home')) # send a raw request to Home view
+request.user = AnonymousUser() # add authentication to request. for example you can pass a user instance
+
+response = Home.as_view()(request) # get the response of the request Home which is a class-based view.
+``` 
 
 
 
