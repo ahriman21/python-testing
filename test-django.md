@@ -112,3 +112,47 @@ class TestUserRegistrationForm(TestCase):
   
 
 ```
+
+#### how to test views as a real client | client :
+you can test your views like a real client is requesting your website and views. for that we import Client from django.test.
+we can login, send data, send request and ... using `Client`.
+
+* request to a url :
+```python
+from django.test import TestCase, Client
+
+class TestUserRegisterView(TestCase):
+  def setUp(self):
+    self.client = Client()
+
+  def test_user_register_GET(self):
+    """ test the GET request to user registration view """
+    respone = self.client.get(reverse('users:register'))
+    self.assertEqual(response.status_code, 200) # test the status code
+    self.assertTemplateUsed(response, 'users/register.html') # check if the response returns the correct template
+    self.failUnless(response.context, UserRegisterForm) # check if the response returns the correct form
+
+  def test_user_register_POST(self):
+    """ test the POST request to user registration view """
+    response = self.client.post(reverse('users:user-register'), data={'username':'bob', 'email':'bob@gmail.com', 'pass1':'pass', 'pass2':'pass'})
+    self.assertRedirects(response, reserve('users:login')) # test if after submiting form it redirects us to login page or not
+    self.failIf(response.context['form'].is_valid() == False) # test if form.is_valid() returns false
+    self.assertFormError(form=response.context['form'], field='email', errors=['the email is already exists!']) # test if email field returns error or not
+
+  def test_limited_view(self):
+    """ this method tests a view that needs user to be authenticated before entering this view """
+    User.objects.create_user(username="bob", email="bob@bob.com", password="1234", country="italy")
+    self.client.login(email="bob@bob.com", password="1234")
+    response = self.client.get(reverse('userrs:profile'))
+    self.assertEqual(response.status_code, 200)
+    self.assertTemplateUsed(response, 'users/profile.html')
+    
+```
+
+
+
+
+
+
+
+
