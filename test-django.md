@@ -54,8 +54,61 @@ note : `.` means the test returned ok and `F` means the test returned false.
 ```
 
 
-#### how to use data before running each methdod or class | setUpTestData() VS setUp()  
-...
+#### how to use data before running each methdod or class | setUpTestData() VS setUp()  :
+if you want to use a data that repeats in your test methods again and again, you can put it in a method called `setUp` or `setUpTestData`.
+once you write this method and put the data in it, you can use that in all of your test methods in the module.
+* `setUp` method runs before each method.
+* `setUpTestData` runs before a test class. this method is a class meethod and should use `@classmethod` decorator.
+
+```python
+class TestAuthor(TestCase):
+  def setUp(self):
+    self.author = baker.make(Author, name='bob', nation='german')
+
+  def test_author_instance_str(self):
+    """ test if the __str__ method in Autho model is working well or not """
+    self.assertEqual(str(self.author), 'bob')
+```
 
 #### how to use fake data in test files | model_bakery :
-...
+you can use fake data in your database using model_bakery package
+```python
+from model_bakery import baker
+from authors.models import Author
+
+# create a fully random author object
+author = baker.make(Author)
+
+# you can pass some of data yourself
+author2 = baker.make(Author, name='kevin')
+```
+
+#### example of how to test form classes of an object :
+in this example the model is User and the form class is UserRegisterForm
+```
+from django.test import TestCase
+from users.models import User
+from users.forms import UserRegisterForm
+
+class TestUserRegistrationForm(TestCase):
+  def test_valid_sata(self):
+    """ this method tests the result of entering valid data into UserRegisterForm class"""
+    form = UserRegisterForm(data={'username':'bob', 'email':'x@gmail.com'})
+    self.assertTrue(form.is_valid())
+
+  def test_empty_form(self):
+    """ this method tests the result of entering empty data """
+    form = UserRegisterForm(data{})
+    self.assertFalse(form.is_valid())
+    self.assertEqual(len(form.errors), 2)
+
+  def test_email_existance(self):
+    """ if you have a method that checks duplicate emails in your User model,
+        you can use this method to test that method and insure that nobody can enter duplicate email
+    """
+    User.objects.create_user(username='kevin', email='kevin@kevin.com')
+    form = UserRegisterForm(data={'username':'bob', 'email':'kevin.@kevin.com''})
+    self.assertTrue(form.has_error('email'))
+  
+
+```
