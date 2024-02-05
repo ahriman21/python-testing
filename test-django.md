@@ -85,7 +85,7 @@ author2 = baker.make(Author, name='kevin')
 
 #### example of how to test form classes of an object :
 in this example the model is User and the form class is UserRegisterForm
-```
+```python
 from django.test import TestCase
 from users.models import User
 from users.forms import UserRegisterForm
